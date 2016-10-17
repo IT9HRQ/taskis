@@ -2,11 +2,10 @@
 
 include 'theme/header.php' ?>
 
-<div class="uk-container uk-container-center uk-margin-top">        
+<div class="uk-container uk-container-center mainpage">        
     <div id="widgets" class="uk-grid uk-grid-small">
         
-        
-        
+                
     </div>
 </div>
    
@@ -28,7 +27,7 @@ include 'theme/header.php' ?>
                 <!--button class="uk-button uk-button-small">
                     <i class="uk-icon-remove"></i>
                 </button-->                
-                <button class="uk-button uk-button-small">
+                <button class="uk-button uk-button-small hook-project-modify">
                     <i class="uk-icon-pencil"></i>                    
                 </button>
                 <button class="uk-button uk-button-small hook-project-delete">
@@ -44,16 +43,23 @@ include 'theme/header.php' ?>
             </div>
         </div>
     </div>
+    
     <div class="widget-plus uk-width-medium-1-10">
-        <div class="uk-panel uk-panel-hover uk-panel-box uk-panel-box-secondary uk-margin-bottom hook-tasklist-create">
+        <div class="uk-panel uk-panel-hover uk-panel-box uk-panel-box-secondary uk-margin-bottom hook-project-create">
             <i class="uk-icon-plus uk-icon-large uk-vertical-align-middle"></i>
         </div>
     </div>
+    
     <div class="widget-item">
         <input type="checkbox" class="checkbox">
         <div class="title">
         </div>    
-    </div>    
+    </div>
+
+    <div class="items-editor">
+        <textarea class="edit">edito</textarea>
+    </div>
+    
 </div>
 
 <?php include 'theme/footer.php' ?>

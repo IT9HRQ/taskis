@@ -57,6 +57,9 @@ function loadGoogleTasksApi()
 function loadProjects() 
 {
     //
+    $('#widgets').html('');
+    
+    //
     var request = gapi.client.tasks.tasklists.list({
         'maxResults': 10
     });
@@ -157,13 +160,19 @@ function loadWidgetItem(task, widget)
 //
 $(document).on('click','.hook-project-create',function()
 {
-    var request = gapi.client.tasks.tasklists.insert({
-        title: task
-    });
+    //
+    UIkit.modal.prompt('Project name:', '', function(title)
+    {
+        var request = gapi.client.tasks.tasklists.insert({
+            title: title
+        });
 
-    request.execute(function(resp) {
-        console.log(resp);
-    });
+        request.execute(function(resp) 
+        {
+            //console.log(resp);
+            loadProjects();
+        });
+    });        
 });
 
 //
@@ -179,13 +188,28 @@ $(document).on('click','.hook-project-delete',function(e)
     UIkit.modal.confirm("Are you sure?", function()
     {   
         //
-        var request = gapi.client.tasks.tasklists.delete({
-            tasklist:projectid
-        });
+        var request = gapi.client.tasks.tasklists.delete({tasklist:projectid});
 
         //
-        request.execute(function(resp) {
-            console.log(resp);
+        request.execute(function(resp) 
+        {            
+            loadProjects();
         });
     });    
+});
+
+//
+$(document).on('click','.hook-project-modify',function(e)
+{
+    //
+    var widget = $(e.target).parents('.widget');
+           
+    //
+    var items_editor = $('#backbones .items-editor').clone();                
+    
+    //
+    $('.items', widget).html(items_editor);
+    
+    //
+    items_editor.focus();
 });
