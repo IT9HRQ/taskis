@@ -23,18 +23,17 @@ include 'theme/header.php' ?>
     <div class="widget uk-width-medium-1-2">
         <div class="uk-panel uk-panel-hover uk-panel-box uk-panel-box-secondary uk-margin-bottom">
             
-            <div class="uk-button-group uk-float-right">
-                <!--button class="uk-button uk-button-small">
-                    <i class="uk-icon-remove"></i>
-                </button-->                
-                <button class="uk-button uk-button-small hook-project-modify">
-                    <i class="uk-icon-pencil"></i>                    
-                </button>
-                <button class="uk-button uk-button-small hook-project-delete">
-                    <i class="uk-icon-remove"></i>
-                </button>
+            <div class="buttons uk-float-right">
+                <div class="uk-button-group">                
+                    <button class="uk-button uk-button-small hook-project-modify">
+                        <i class="uk-icon-pencil"></i>                    
+                    </button>
+                    <button class="uk-button uk-button-small hook-project-delete">
+                        <i class="uk-icon-remove"></i>
+                    </button>
+                </div>
             </div>
-            
+                
             <h3 class="uk-panel-title">
                 {Titolo}
             </h3>
@@ -57,9 +56,18 @@ include 'theme/header.php' ?>
     </div>
 
     <div class="items-editor">
-        <textarea class="edit">edito</textarea>
+        <textarea class="edit"> - </textarea>
     </div>
     
+    <div class="buttons-editor">                
+        <button class="uk-button uk-button-small hook-project-modify-update">
+            <i class="uk-icon-check"></i> Save                    
+        </button>
+        <button class="uk-button uk-button-small hook-project-modify-cancel">
+            Cancel
+        </button>
+    </div>
+
 </div>
 
 <?php include 'theme/footer.php' ?>

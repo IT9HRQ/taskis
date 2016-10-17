@@ -209,7 +209,38 @@ $(document).on('click','.hook-project-modify',function(e)
     
     //
     $('.items', widget).html(items_editor);
+  
+    //
+    $('.buttons', widget).html($('#backbones .buttons-editor').clone());
+      
+    //
+    $('.edit', widget).focus();
+});
+
+//
+$(document).on('click','.hook-project-modify-update',function(e)
+{
+    //
+    var widget = $(e.target).parents('.widget');
     
     //
-    items_editor.focus();
+    var wiki = $('.edit', widget).val();
+    
+    //
+    var lines = wiki.split(/\n/);
+    
+    
+    
+  
+    //
+    console.log('new tasks: ', wiki);
+    
+    //
+    loadProjects();
+});
+
+//
+$(document).on('click','.hook-project-modify-cancel',function(e)
+{
+    loadProjects();    
 });
