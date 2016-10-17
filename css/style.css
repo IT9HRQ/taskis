@@ -1,0 +1,21 @@
+.widget-item
+{
+    position: relative;
+}
+
+.widget-item .title 
+{
+    margin-left: 18px;
+}
+
+.widget-item .checkbox
+{
+    top: 1px;
+    left: -4px;
+    position: absolute;
+}
+
+.uk-panel-title
+{
+    margin-bottom: 5px;
+}
