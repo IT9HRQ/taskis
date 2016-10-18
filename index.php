@@ -56,7 +56,7 @@ include 'theme/header.php' ?>
     </div>
 
     <div class="items-editor">
-        <textarea class="edit"> - </textarea>
+        <textarea class="edit"></textarea>
     </div>
     
     <div class="buttons-editor">                

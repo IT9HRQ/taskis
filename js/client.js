@@ -54,7 +54,7 @@ function loadGoogleTasksApi()
 }
 
 //
-function loadProjects() 
+function loadProjects(cb) 
 {
     //
     $('#widgets').html('');
@@ -68,7 +68,7 @@ function loadProjects()
     request.execute(function(resp)
     {
         //
-        console.log('loadProjects: ', resp);
+        //console.log('loadProjects: ', resp);
         
         //
         var projects = resp.items;
@@ -87,11 +87,14 @@ function loadProjects()
         //
         else
         {
-            console.log('No task lists found.');
+            //console.log('No task lists found.');
         }
         
         //
-        $('#widgets').append($('#backbones .widget-plus').clone());                
+        $('#widgets').append($('#backbones .widget-plus').clone());    
+        
+        //
+        if (typeof cb === 'function') { cb(); }
     });
 }
 
@@ -107,7 +110,7 @@ function loadWidget(project)
     //
     var request = gapi.client.tasks.tasks.list({
         tasklist: project.id,
-        maxResults: 10
+        //maxResults: 10
     });
 
     //
@@ -167,10 +170,13 @@ $(document).on('click','.hook-project-create',function()
             title: title
         });
 
-        request.execute(function(resp) 
+        request.execute(function(project) 
         {
-            //console.log(resp);
-            loadProjects();
+            console.log(project.id);
+            loadProjects(function(){
+                
+                
+            });
         });
     });        
 });
@@ -182,7 +188,7 @@ $(document).on('click','.hook-project-delete',function(e)
     var projectid = $(e.target).parents('.widget').attr('id');
     
     //
-    console.log('project delete', projectid);
+    //console.log('project delete', projectid);
     
     //
     UIkit.modal.confirm("Are you sure?", function()
@@ -203,18 +209,51 @@ $(document).on('click','.hook-project-modify',function(e)
 {
     //
     var widget = $(e.target).parents('.widget');
+    
+    //
+    var projectid = widget.attr('id');
            
     //
     var items_editor = $('#backbones .items-editor').clone();                
     
     //
-    $('.items', widget).html(items_editor);
-  
-    //
-    $('.buttons', widget).html($('#backbones .buttons-editor').clone());
-      
-    //
-    $('.edit', widget).focus();
+    var request = gapi.client.tasks.tasks.list({tasklist: projectid});
+    
+     //
+    request.execute(function(resp)
+    {
+        //
+        var tasks = resp.items;
+        
+        //
+        var wiki = '';
+        
+        //
+        if (tasks && tasks.length > 0) 
+        {
+            //
+            for (var i = 0; i < tasks.length; i++) 
+            {      
+                //
+                wiki += tasks[i].title + "\n";
+            }
+        }
+        
+        //
+        console.log('wiki:', wiki);
+        
+        //
+        $('.edit', items_editor).val(wiki);
+        
+        //
+        $('.items', widget).html(items_editor);
+
+        //
+        $('.buttons', widget).html($('#backbones .buttons-editor').clone());
+
+        //
+        $('.edit', widget).focus();
+    });    
 });
 
 //
@@ -224,19 +263,59 @@ $(document).on('click','.hook-project-modify-update',function(e)
     var widget = $(e.target).parents('.widget');
     
     //
+    var projectid = widget.attr('id');
+    
+    //
     var wiki = $('.edit', widget).val();
     
     //
     var lines = wiki.split(/\n/);
-    
-    
-    
-  
+   
     //
-    console.log('new tasks: ', wiki);
-    
+    var request = gapi.client.tasks.tasks.list({tasklist: projectid});
+
     //
-    loadProjects();
+    request.execute(function(resp)
+    {
+        //
+        var tasks = resp.items;
+
+        //
+        var currents = [];
+
+        //
+        if (tasks && tasks.length > 0) 
+        {
+            //
+            for (var i = 0; i < tasks.length; i++) 
+            {      
+                
+            }
+        }                 
+        
+        //
+        for (var i in lines)
+        {
+            // not in array create task
+            if (jQuery.inArray(lines[i], currents) === -1) 
+            {
+                //
+                console.log('insert task:', lines[i]);
+                
+                //
+                var request = gapi.client.tasks.tasks.insert({
+                    title: lines[i],
+                    tasklist: projectid
+                });
+
+                //
+                request.execute(function(resp){ console.log(resp); });
+            }            
+        }
+        
+        //
+        setTimeout('loadProjects();', 500);
+    });
 });
 
 //
