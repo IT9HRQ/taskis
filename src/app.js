@@ -1,7 +1,7 @@
-/*\
+/**
  * 
  * 
-\*/
+ */
 
 //
 var SCOPES = ['https://www.googleapis.com/auth/tasks'];
@@ -11,7 +11,7 @@ function init()
 {
     //
     gapi.auth.authorize({
-        client_id: CLIENT_ID,
+        client_id: '989152715769-5dmdgb43mtqhup9vfglu00qagguqstn4.apps.googleusercontent.com',
         scope: SCOPES.join(' '),
         immediate: true
     }, handleAuthResult);
