@@ -55,10 +55,11 @@ angular
                     });
 
                     //
-                    request.execute(function(resp) {
-                                                
-                        //
-                        $scope.projects = resp.items;
+                    request.execute(function(resp) {                         
+                        $scope.$apply(function() {
+                            $scope.projects = resp.items;
+                            console.log($scope.projects);                                                    
+                        });
                     });
                 }
             })
