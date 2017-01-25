@@ -1,18 +1,37 @@
 
 //
-var APP_ID = "989152715769-5dmdgb43mtqhup9vfglu00qagguqstn4.apps.googleusercontent.com";
-var SCOPES = ["https://www.googleapis.com/auth/tasks"];
+var CLIENT_ID = "989152715769-5dmdgb43mtqhup9vfglu00qagguqstn4.apps.googleusercontent.com";
+var DISCOVERY = ['https://people.googleapis.com/$discovery/rest'];
+var SCOPES = [
+    "profile",
+    "https://www.googleapis.com/auth/tasks",
+    "https://www.googleapis.com/auth/contacts.readonly"
+];
 
 //
 function init() {
+    
+    //
     gapi.auth.authorize({
-        client_id: APP_ID,
+        client_id: CLIENT_ID,
+        discoveryDocs: DISCOVERY,
         scope: SCOPES.join(" "),
         immediate: true
     }, function (authResult) {
+        
+        //
         if (authResult && !authResult.error) {
-            gapi.client.load('tasks', 'v1', function() {                
-                angular.bootstrap(document, ["taskis"]);
+            gapi.client.load('tasks', 'v1', function() {   
+                gapi.client.load('plus', 'v1', function() {                   
+                    gapi.client.plus.people.get({
+                        'userId': 'me'
+                    }).execute(function(resp) {
+                        console.log('Retrieved profile for:' ,resp);
+                    });
+                    
+                    //
+                    angular.bootstrap(document, ["taskis"]);                    
+                });
             });
         } else {            
             jQuery.get("view/signin.html", function(html){
@@ -25,13 +44,19 @@ function init() {
 
 //
 function signin() {
+    
+    //
     gapi.auth.authorize({
-        client_id: APP_ID, 
-        scope: SCOPES.join(" "), 
+        client_id: CLIENT_ID,
+        discoveryDocs: DISCOVERY,
+        scope: SCOPES.join(" "),
         immediate: false
     }, function (authResult) {
+        
+        //
         if (authResult && !authResult.error) {            
             gapi.client.load('tasks', 'v1', function() {                
+                UIkit.modal("#signin").hide();
                 angular.bootstrap(document, ["taskis"]);
             });
         }
@@ -42,11 +67,11 @@ function signin() {
 angular
     .module("taskis", ["ui.router"])
     .config(function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/home");
+        $urlRouterProvider.otherwise("/board");
         $stateProvider
-            .state("home", {
-                url: "/home",
-                templateUrl: "view/home.html",
+            .state("board", {
+                url: "/board",
+                templateUrl: "view/board.html",
                 controller: function($scope) {
 
                     //
@@ -67,5 +92,21 @@ angular
     })
     .component("layout", {
         templateUrl: "view/layout.html" 
+    })
+    .component("tasks", {
+        templateUrl: "view/tasks.html",
+        bindToController: true,
+        transclude: true,
+        bindings: {
+            project: '<'
+        },
+        controller: function($scope) {                
+            var args = this;            
+            this.$onInit = function() {
+                
+                
+                console.log(args.project);
+            };
+        }
     });
     
