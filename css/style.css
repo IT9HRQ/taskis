@@ -22,19 +22,6 @@
     margin-left: 18px;
 }
 
-.widget-item .title:hover 
-{
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.widget-item .checkbox
-{
-    top: 0px;
-    left: -4px;
-    position: absolute;
-}
-
 .widget textarea.edit
 {
     width: 100%;
@@ -82,4 +69,63 @@
 {
     padding-left: 10px !important;
     padding-right: 10px !important;
+}
+
+.uk-checkbox {
+    width: 15px;
+    height: 15px;
+    vertical-align: -2px;
+}
+
+.widget-body {
+    line-height: 18px;
+}
+
+.task {
+    margin-left: -4px;  
+    padding: 0;
+}
+
+.task .uk-checkbox {
+    position: absolute;
+    margin-top: 5px;
+}
+
+.task label {
+    cursor: pointer;
+}
+
+.task label span.caption {
+    padding: 4px 15px 4px 25px;
+    display: inline-block;    
+}
+
+.task label:hover span.caption span {
+    text-decoration: underline;
+}
+
+.task.completed label span.caption span {
+    text-decoration: line-through;
+    color: #777;
+}
+
+.uk-navbar {
+    box-shadow: 0 0 6px #abc;
+    border-bottom: 1px solid #abc;    
+}
+
+.uk-panel-box-secondary {
+    background-color: #f8f7f6;
+}
+
+.task label span.caption span.controls {
+    visibility: hidden;
+}
+
+.task label span.caption:hover span.controls {
+    visibility: visible;
+}
+
+.uk-icon-remove {
+    color: red;
 }
